@@ -1,0 +1,23 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="website.lhc.lspace.system.loginlog.mapper.SpLoginInfoMapper">
+
+    <!-- 通用查询映射结果 -->
+    <resultMap id="BaseResultMap" type="website.lhc.lspace.system.loginlog.entity.SpLoginInfo">
+    <result column="id" property="id" />
+        <result column="login_name" property="loginName" />
+        <result column="ip_address" property="ipAddress" />
+        <result column="browser" property="browser" />
+        <result column="os" property="os" />
+        <result column="status" property="status" />
+        <result column="msg" property="msg" />
+        <result column="login_time" property="loginTime" />
+    </resultMap>
+
+    <!-- 通用查询结果列 -->
+    <sql id="Base_Column_List">
+        id,
+        login_name, ip_address, browser, os, status, msg, login_time
+    </sql>
+
+</mapper>
