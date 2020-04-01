@@ -26,7 +26,7 @@ public class ShiroConfig {
     @Bean
     public DefaultWebSessionManager sessionManager() {
         DefaultWebSessionManager sessionManager = new DefaultWebSessionManager();
-        sessionManager.setSessionValidationInterval(100);
+        sessionManager.setSessionValidationInterval(10000);
         sessionManager.setSessionIdUrlRewritingEnabled(false);
         sessionManager.setSessionValidationSchedulerEnabled(true);
         sessionManager.setGlobalSessionTimeout(100);
@@ -50,8 +50,8 @@ public class ShiroConfig {
         shiroFilterFactoryBean.setUnauthorizedUrl("");
 
         Map<String, String> filterMap = new LinkedHashMap<>();
-        filterMap.put("", "anon");
-        filterMap.put("", "authc");
+//        filterMap.put("", "anon");
+        filterMap.put("/login", "authc");
         shiroFilterFactoryBean.setFilterChainDefinitionMap(filterMap);
         return shiroFilterFactoryBean;
     }

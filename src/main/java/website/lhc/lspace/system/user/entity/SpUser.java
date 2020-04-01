@@ -1,13 +1,13 @@
 package website.lhc.lspace.system.user.entity;
 
-import java.time.LocalDateTime;
-import java.io.Serializable;
-
 import com.baomidou.mybatisplus.annotation.IdType;
 import com.baomidou.mybatisplus.annotation.TableId;
 import lombok.Data;
 import lombok.EqualsAndHashCode;
 import lombok.experimental.Accessors;
+
+import java.io.Serializable;
+import java.time.LocalDateTime;
 
 /**
  * <p>
@@ -58,7 +58,7 @@ public class SpUser implements Serializable {
     /**
      * 用户状态
      */
-    private Boolean status;
+    private Integer status;
 
     /**
      * 电子邮件
