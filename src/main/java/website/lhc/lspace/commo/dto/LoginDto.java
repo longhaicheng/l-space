@@ -4,6 +4,7 @@ import lombok.Getter;
 import lombok.Setter;
 
 import javax.validation.constraints.NotBlank;
+import javax.validation.constraints.Size;
 
 /**
  * @ProjectName: l-space
@@ -17,8 +18,11 @@ import javax.validation.constraints.NotBlank;
 @Setter
 public class LoginDto {
 
+    @Size(min = 0, max = 20, message = "用户名不合法")
     @NotBlank(message = "用户名不可为空")
     private String userAccount;
+
+    @Size(min = 0, max = 20, message = "密码不合法")
     @NotBlank(message = "密码不可为空")
     private String userPasswd;
 }
