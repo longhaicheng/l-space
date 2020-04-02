@@ -5,6 +5,7 @@ import org.springframework.stereotype.Component;
 import org.springframework.util.StringUtils;
 
 import javax.annotation.Resource;
+import java.util.concurrent.TimeUnit;
 
 /**
  * @ProjectName: l-space
@@ -32,6 +33,12 @@ public class RedisUtil {
             return redisTemplate.opsForValue().get(key);
         }
         return null;
+    }
+
+    public void set(String key, Object value, long time, TimeUnit unit) {
+        if (value != null) {
+            redisTemplate.opsForValue().set(key, value, time, unit);
+        }
     }
 
     /**

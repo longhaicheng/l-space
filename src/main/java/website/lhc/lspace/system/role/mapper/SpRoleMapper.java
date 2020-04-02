@@ -1,7 +1,9 @@
 package website.lhc.lspace.system.role.mapper;
 
-import website.lhc.lspace.system.role.entity.SpRole;
 import com.baomidou.mybatisplus.core.mapper.BaseMapper;
+import website.lhc.lspace.system.role.entity.SpRole;
+
+import java.util.Set;
 
 /**
  * <p>
@@ -13,4 +15,5 @@ import com.baomidou.mybatisplus.core.mapper.BaseMapper;
  */
 public interface SpRoleMapper extends BaseMapper<SpRole> {
 
+    Set<String> getRoles(Integer userId);
 }

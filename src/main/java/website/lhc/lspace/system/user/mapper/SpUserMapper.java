@@ -1,7 +1,9 @@
 package website.lhc.lspace.system.user.mapper;
 
-import website.lhc.lspace.system.user.entity.SpUser;
 import com.baomidou.mybatisplus.core.mapper.BaseMapper;
+import website.lhc.lspace.system.user.entity.SpUser;
+
+import java.util.List;
 
 /**
  * <p>
@@ -12,5 +14,8 @@ import com.baomidou.mybatisplus.core.mapper.BaseMapper;
  * @since 2020-03-31
  */
 public interface SpUserMapper extends BaseMapper<SpUser> {
+
+    List<String> getPermission(Integer userId);
+
 
 }

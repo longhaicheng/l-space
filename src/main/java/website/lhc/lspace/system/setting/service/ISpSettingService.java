@@ -1,7 +1,8 @@
 package website.lhc.lspace.system.setting.service;
 
-import website.lhc.lspace.system.setting.entity.SpSetting;
 import com.baomidou.mybatisplus.extension.service.IService;
+import website.lhc.lspace.commo.dto.SettingDto;
+import website.lhc.lspace.system.setting.entity.SpSetting;
 
 /**
  * <p>
@@ -12,5 +13,5 @@ import com.baomidou.mybatisplus.extension.service.IService;
  * @since 2020-03-31
  */
 public interface ISpSettingService extends IService<SpSetting> {
-
+    void addSetting(SettingDto dto);
 }

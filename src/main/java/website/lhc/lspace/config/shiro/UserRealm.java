@@ -3,15 +3,26 @@ package website.lhc.lspace.config.shiro;
 import com.baomidou.mybatisplus.core.conditions.query.QueryWrapper;
 import org.apache.shiro.authc.*;
 import org.apache.shiro.authz.AuthorizationInfo;
+import org.apache.shiro.authz.SimpleAuthorizationInfo;
 import org.apache.shiro.realm.AuthorizingRealm;
 import org.apache.shiro.subject.PrincipalCollection;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
+import org.springframework.util.StringUtils;
+import website.lhc.lspace.commo.enums.UserEnum;
 import website.lhc.lspace.commo.enums.UserStatus;
 import website.lhc.lspace.commo.util.MD5Util;
 import website.lhc.lspace.commo.util.RedisUtil;
+import website.lhc.lspace.system.menu.service.ISpMenuService;
+import website.lhc.lspace.system.role.mapper.SpRoleMapper;
 import website.lhc.lspace.system.user.entity.SpUser;
+import website.lhc.lspace.system.user.mapper.SpUserMapper;
 import website.lhc.lspace.system.user.service.ISpUserService;
+
+import java.util.Arrays;
+import java.util.HashSet;
+import java.util.List;
+import java.util.Set;
 
 /**
  * @ProjectName: l-space
@@ -28,6 +39,15 @@ public class UserRealm extends AuthorizingRealm {
     private ISpUserService userService;
 
     @Autowired
+    private SpUserMapper userMapper;
+
+    @Autowired
+    private SpRoleMapper roleMapper;
+
+    @Autowired
+    private ISpMenuService menuService;
+
+    @Autowired
     private RedisUtil redisTemplate;
 
     /**
@@ -38,7 +58,32 @@ public class UserRealm extends AuthorizingRealm {
      */
     @Override
     protected AuthorizationInfo doGetAuthorizationInfo(PrincipalCollection principalCollection) {
-        return null;
+        SpUser spUser = (SpUser) principalCollection.getPrimaryPrincipal();
+        Integer userId = spUser.getUserId();
+
+
+        Set<String> roles = null;
+        SimpleAuthorizationInfo info = new SimpleAuthorizationInfo();
+        List<String> perms = null;
+        if (UserEnum.ADMIN.getUserId().equals(userId)) {
+            info.addRole("admin");
+            info.addStringPermission("*:*:*");
+        } else {
+            // 其他用户获取权限
+            perms = userMapper.getPermission(userId);
+            roles = roleMapper.getRoles(userId);
+        }
+
+        Set<String> permsSet = new HashSet<>();
+        for (String perm : perms) {
+            if (!StringUtils.hasLength(perm)) {
+                continue;
+            }
+            permsSet.addAll(Arrays.asList(perm.trim().split(",")));
+        }
+        info.setRoles(roles);
+        info.addStringPermissions(permsSet);
+        return info;
     }
 
     /**

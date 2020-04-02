@@ -4,15 +4,23 @@
 
     <!-- 通用查询映射结果 -->
     <resultMap id="BaseResultMap" type="website.lhc.lspace.system.role.entity.SpRole">
-        <id column="role_id" property="roleId" />
-        <result column="role_name" property="roleName" />
-        <result column="remark" property="remark" />
-        <result column="create_time" property="createTime" />
+        <id column="role_id" property="roleId"/>
+        <result column="role_name" property="roleName"/>
+        <result column="remark" property="remark"/>
+        <result column="create_time" property="createTime"/>
     </resultMap>
 
     <!-- 通用查询结果列 -->
     <sql id="Base_Column_List">
         role_id, role_name, remark, create_time
     </sql>
+
+    <select id="getRoles" parameterType="java.lang.Integer" resultType="java.lang.String">
+        SELECT r.role_name
+        FROM sp_role r,
+             sp_user_role u
+        WHERE r.role_id = u.role_id
+          AND u.user_id = #{userId}
+    </select>
 
 </mapper>

@@ -68,5 +68,8 @@ public class SpSetting implements Serializable {
      */
     private String remark;
 
-
+    /**
+     * 状态;0:正常；1：失效
+     */
+    private Integer status;
 }

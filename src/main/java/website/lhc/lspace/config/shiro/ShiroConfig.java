@@ -26,11 +26,19 @@ public class ShiroConfig {
     @Bean
     public DefaultWebSessionManager sessionManager() {
         DefaultWebSessionManager sessionManager = new DefaultWebSessionManager();
-        sessionManager.setSessionValidationInterval(10000);
+        sessionManager.setSessionValidationInterval(1800000);
         sessionManager.setSessionIdUrlRewritingEnabled(false);
         sessionManager.setSessionValidationSchedulerEnabled(true);
-        sessionManager.setGlobalSessionTimeout(100);
+        sessionManager.setGlobalSessionTimeout(1800000);
+        sessionManager.setDeleteInvalidSessions(true);
+        sessionManager.setSessionDAO(spaceSessionDao());
         return sessionManager;
+    }
+
+    @Bean
+    public SpaceSessionDao spaceSessionDao() {
+        SpaceSessionDao sessionDao = new SpaceSessionDao();
+        return sessionDao;
     }
 
     @Bean

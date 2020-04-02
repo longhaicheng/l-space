@@ -4,21 +4,30 @@
 
     <!-- 通用查询映射结果 -->
     <resultMap id="BaseResultMap" type="website.lhc.lspace.system.user.entity.SpUser">
-        <id column="user_id" property="userId" />
-        <result column="user_name" property="userName" />
-        <result column="user_account" property="userAccount" />
-        <result column="user_passwd" property="userPasswd" />
-        <result column="salt" property="salt" />
-        <result column="phone" property="phone" />
-        <result column="status" property="status" />
-        <result column="user_mail" property="userMail" />
-        <result column="create_time" property="createTime" />
-        <result column="last_login_time" property="lastLoginTime" />
+        <id column="user_id" property="userId"/>
+        <result column="user_name" property="userName"/>
+        <result column="user_account" property="userAccount"/>
+        <result column="user_passwd" property="userPasswd"/>
+        <result column="salt" property="salt"/>
+        <result column="phone" property="phone"/>
+        <result column="status" property="status"/>
+        <result column="user_mail" property="userMail"/>
+        <result column="create_time" property="createTime"/>
+        <result column="last_login_time" property="lastLoginTime"/>
     </resultMap>
 
     <!-- 通用查询结果列 -->
     <sql id="Base_Column_List">
         user_id, user_name, user_account, user_passwd, salt, phone, status, user_mail, create_time, last_login_time
     </sql>
+
+    <select id="getPermission" parameterType="java.lang.Integer" resultType="java.lang.String">
+        SELECT m.perms
+        FROM sp_user_role r
+                 LEFT JOIN sp_role_menu rm ON r.role_id = rm.role_id
+                 LEFT JOIN sp_menu m ON rm.menu_id = m.menu_id
+        WHERE r.user_id = #{userId}
+    </select>
+
 
 </mapper>

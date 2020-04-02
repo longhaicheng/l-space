@@ -13,12 +13,13 @@
         <result column="update_time" property="updateTime" />
         <result column="update_by" property="updateBy" />
         <result column="remark" property="remark" />
+        <result column="status" property="status"/>
     </resultMap>
 
     <!-- 通用查询结果列 -->
     <sql id="Base_Column_List">
         id,
-        config_name, config_key, config_value, create_time, create_by, update_time, update_by, remark
+        config_name, config_key, config_value, create_time, create_by, update_time, update_by, remark,status
     </sql>
 
 </mapper>
