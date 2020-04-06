@@ -16,4 +16,5 @@ import java.util.Set;
 public interface SpRoleMapper extends BaseMapper<SpRole> {
 
     Set<String> getRoles(Integer userId);
+
 }

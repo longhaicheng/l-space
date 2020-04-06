@@ -2,6 +2,7 @@ package website.lhc.lspace.commo.dto;
 
 import lombok.Getter;
 import lombok.Setter;
+import website.lhc.lspace.commo.base.AbstractToString;
 
 import javax.validation.constraints.NotBlank;
 import javax.validation.constraints.Size;
@@ -16,7 +17,7 @@ import javax.validation.constraints.Size;
  */
 @Getter
 @Setter
-public class LoginDto {
+public class LoginDto extends AbstractToString {
 
     @Size(min = 0, max = 20, message = "用户名不合法")
     @NotBlank(message = "用户名不可为空")

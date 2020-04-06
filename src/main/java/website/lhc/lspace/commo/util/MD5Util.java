@@ -1,7 +1,5 @@
 package website.lhc.lspace.commo.util;
 
-import org.apache.shiro.crypto.hash.Md5Hash;
-
 /**
  * @ProjectName: l-space
  * @Package: website.lhc.lspace.commo.util
@@ -19,6 +17,7 @@ public class MD5Util {
      * @return
      */
     public static String encryptPassWord(String passwd, String salt) {
-        return new Md5Hash(passwd + salt).toHex();
+//        return new Md5Hash(passwd + salt).toHex();
+        return null;
     }
 }

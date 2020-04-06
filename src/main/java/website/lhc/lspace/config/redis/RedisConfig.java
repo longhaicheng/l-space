@@ -22,10 +22,13 @@ public class RedisConfig {
         RedisTemplate<String, Object> redisTemplate = new RedisTemplate<>();
         Jackson2JsonRedisSerializer<Object> jackson2JsonRedisSerializer = new Jackson2JsonRedisSerializer<>(Object.class);
         redisTemplate.setConnectionFactory(redisConnectionFactory);
-        redisTemplate.setDefaultSerializer(jackson2JsonRedisSerializer);
-        redisTemplate.setKeySerializer(jackson2JsonRedisSerializer);
-        redisTemplate.setValueSerializer(jackson2JsonRedisSerializer);
-        redisTemplate.setStringSerializer(new StringRedisSerializer());
+//        redisTemplate.setDefaultSerializer(jackson2JsonRedisSerializer);
+//        redisTemplate.setKeySerializer(jackson2JsonRedisSerializer);
+//        redisTemplate.setValueSerializer(jackson2JsonRedisSerializer);
+//        redisTemplate.setStringSerializer(new StringRedisSerializer());
+        redisTemplate.setDefaultSerializer(new StringRedisSerializer());
+        redisTemplate.setKeySerializer(new StringRedisSerializer());
+        redisTemplate.setValueSerializer(new StringRedisSerializer());
         return redisTemplate;
     }
 }

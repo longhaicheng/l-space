@@ -1,7 +1,8 @@
 package website.lhc.lspace.system.user.service;
 
-import website.lhc.lspace.system.user.entity.SpUser;
 import com.baomidou.mybatisplus.extension.service.IService;
+import website.lhc.lspace.commo.base.Resp;
+import website.lhc.lspace.system.user.entity.SpUser;
 
 /**
  * <p>
@@ -13,4 +14,5 @@ import com.baomidou.mybatisplus.extension.service.IService;
  */
 public interface ISpUserService extends IService<SpUser> {
 
+    Resp login(String account, String passwd);
 }

@@ -54,6 +54,20 @@ public class Resp extends HashMap<String, Object> {
         return resp;
     }
 
+    /**
+     * 针对token
+     *
+     * @param token      token
+     * @param expiration 有效期
+     * @return Resp
+     */
+    public static Resp ok(String token, long expiration) {
+        Resp resp = new Resp();
+        resp.put("token", token);
+        resp.put("expiration", expiration);
+        return resp;
+    }
+
     public static Resp error() {
         return error(HttpStatus.INTERNAL_SERVER_ERROR.value(), "error");
     }

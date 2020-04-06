@@ -1,7 +1,6 @@
 package website.lhc.lspace.system.setting.controller;
 
 import com.baomidou.mybatisplus.core.conditions.query.QueryWrapper;
-import org.apache.shiro.authz.annotation.RequiresPermissions;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
@@ -32,7 +31,6 @@ public class SettingController {
     private ISpSettingService settingService;
 
     @PostMapping(value = "/list")
-    @RequiresPermissions(value = "sys:setting:list")
     public Resp listSetting() {
         QueryWrapper<SpSetting> queryWrapper = new QueryWrapper<>();
         queryWrapper.eq("status", 0);
@@ -42,7 +40,6 @@ public class SettingController {
 
 
     @PostMapping(value = "/delete")
-    @RequiresPermissions(value = "sys:setting:delete")
     public Resp delSetting(Integer id) {
         SpSetting setting = new SpSetting();
         setting.setId(id);
@@ -53,7 +50,6 @@ public class SettingController {
 
 
     @PostMapping(value = "/add")
-    @RequiresPermissions(value = "sys:setting:add")
     public Resp addSetting(@RequestBody SettingDto dto) {
         ValidatorUtil.verify(dto);
         settingService.addSetting(dto);

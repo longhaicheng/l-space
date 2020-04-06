@@ -5,7 +5,6 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.util.StringUtils;
 import website.lhc.lspace.commo.dto.SettingDto;
-import website.lhc.lspace.commo.util.SubjectUtil;
 import website.lhc.lspace.system.setting.entity.SpSetting;
 import website.lhc.lspace.system.setting.mapper.SpSettingMapper;
 import website.lhc.lspace.system.setting.service.ISpSettingService;
@@ -37,7 +36,7 @@ public class SpSettingServiceImpl extends ServiceImpl<SpSettingMapper, SpSetting
         if (StringUtils.hasLength(dto.getRemark())) {
             s.setRemark(dto.getRemark());
         }
-        s.setCreateBy(SubjectUtil.getModel().getUserName());
+//        s.setCreateBy(SubjectUtil.getModel().getUserName());
         settingMapper.insert(s);
     }
 }
