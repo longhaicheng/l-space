@@ -1,6 +1,7 @@
 package website.lhc.lspace.commo.util;
 
-import lombok.extern.slf4j.Slf4j;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.data.redis.core.RedisTemplate;
 import org.springframework.stereotype.Component;
 import org.springframework.util.StringUtils;
@@ -19,9 +20,10 @@ import java.util.concurrent.TimeUnit;
  * @Description: Spring Data Redis工具类
  * @Date: 2020/4/1 下午 03:12
  */
-@Slf4j
 @Component
 public class RedisUtil {
+
+    private static final Logger log = LoggerFactory.getLogger(RedisUtil.class);
 
     /**
      * 分隔符

@@ -1,13 +1,11 @@
 package website.lhc.lspace.system.accesslog.entity;
 
-import java.time.LocalDateTime;
-import java.io.Serializable;
-
 import com.baomidou.mybatisplus.annotation.IdType;
 import com.baomidou.mybatisplus.annotation.TableId;
-import lombok.Data;
-import lombok.EqualsAndHashCode;
-import lombok.experimental.Accessors;
+import website.lhc.lspace.commo.base.AbstractToString;
+
+import java.io.Serializable;
+import java.time.LocalDateTime;
 
 /**
  * <p>
@@ -17,10 +15,8 @@ import lombok.experimental.Accessors;
  * @author 龙海成
  * @since 2020-03-31
  */
-@Data
-@EqualsAndHashCode(callSuper = false)
-@Accessors(chain = true)
-public class SpLog implements Serializable {
+
+public class SpLog extends AbstractToString implements Serializable {
 
     private static final long serialVersionUID = 1L;
 
@@ -55,5 +51,51 @@ public class SpLog implements Serializable {
      */
     private LocalDateTime createTime;
 
+    public Integer getLogId() {
+        return logId;
+    }
 
+    public void setLogId(Integer logId) {
+        this.logId = logId;
+    }
+
+    public Boolean getType() {
+        return type;
+    }
+
+    public void setType(Boolean type) {
+        this.type = type;
+    }
+
+    public String getUserAccount() {
+        return userAccount;
+    }
+
+    public void setUserAccount(String userAccount) {
+        this.userAccount = userAccount;
+    }
+
+    public String getOperation() {
+        return operation;
+    }
+
+    public void setOperation(String operation) {
+        this.operation = operation;
+    }
+
+    public String getMethod() {
+        return method;
+    }
+
+    public void setMethod(String method) {
+        this.method = method;
+    }
+
+    public LocalDateTime getCreateTime() {
+        return createTime;
+    }
+
+    public void setCreateTime(LocalDateTime createTime) {
+        this.createTime = createTime;
+    }
 }

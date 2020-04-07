@@ -3,9 +3,7 @@ package website.lhc.lspace.system.menu.entity;
 import com.baomidou.mybatisplus.annotation.IdType;
 import com.baomidou.mybatisplus.annotation.TableId;
 import com.fasterxml.jackson.annotation.JsonInclude;
-import lombok.Data;
-import lombok.EqualsAndHashCode;
-import lombok.experimental.Accessors;
+import website.lhc.lspace.commo.base.AbstractToString;
 
 import java.io.Serializable;
 
@@ -17,11 +15,8 @@ import java.io.Serializable;
  * @author 龙海成
  * @since 2020-03-31
  */
-@Data
-@EqualsAndHashCode(callSuper = false)
-@Accessors(chain = true)
 @JsonInclude(JsonInclude.Include.NON_NULL)
-public class SpMenu implements Serializable {
+public class SpMenu extends AbstractToString implements Serializable {
 
     private static final long serialVersionUID = 1L;
 
@@ -48,13 +43,13 @@ public class SpMenu implements Serializable {
 
     /**
      * 授权(多个用逗号分隔，
-如：user:list,user:create)
+     * 如：user:list,user:create)
      */
     private String perms;
 
     /**
      * 类型 0：目录 1：菜
-单 2：按钮
+     * 单 2：按钮
      */
     private Boolean type;
 
@@ -68,5 +63,67 @@ public class SpMenu implements Serializable {
      */
     private Integer orderNum;
 
+    public Integer getMenuId() {
+        return menuId;
+    }
 
+    public void setMenuId(Integer menuId) {
+        this.menuId = menuId;
+    }
+
+    public Integer getParentId() {
+        return parentId;
+    }
+
+    public void setParentId(Integer parentId) {
+        this.parentId = parentId;
+    }
+
+    public String getMenuName() {
+        return menuName;
+    }
+
+    public void setMenuName(String menuName) {
+        this.menuName = menuName;
+    }
+
+    public String getUrl() {
+        return url;
+    }
+
+    public void setUrl(String url) {
+        this.url = url;
+    }
+
+    public String getPerms() {
+        return perms;
+    }
+
+    public void setPerms(String perms) {
+        this.perms = perms;
+    }
+
+    public Boolean getType() {
+        return type;
+    }
+
+    public void setType(Boolean type) {
+        this.type = type;
+    }
+
+    public String getIcon() {
+        return icon;
+    }
+
+    public void setIcon(String icon) {
+        this.icon = icon;
+    }
+
+    public Integer getOrderNum() {
+        return orderNum;
+    }
+
+    public void setOrderNum(Integer orderNum) {
+        this.orderNum = orderNum;
+    }
 }

@@ -1,6 +1,7 @@
 package website.lhc.lspace.config.security.filter;
 
-import lombok.extern.slf4j.Slf4j;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.core.context.SecurityContextHolder;
@@ -22,8 +23,11 @@ import java.io.IOException;
  * @Description: token验证过滤器
  * @Date: 2020/4/5 下午 09:07
  */
-@Slf4j
+
 public class TokenVerifyFilter extends BasicAuthenticationFilter {
+
+    private static final Logger log = LoggerFactory.getLogger(TokenVerifyFilter.class);
+
     public TokenVerifyFilter(AuthenticationManager authenticationManager) {
         super(authenticationManager);
     }

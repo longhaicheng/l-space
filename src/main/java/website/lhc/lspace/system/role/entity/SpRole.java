@@ -1,13 +1,11 @@
 package website.lhc.lspace.system.role.entity;
 
-import java.time.LocalDateTime;
-import java.io.Serializable;
-
 import com.baomidou.mybatisplus.annotation.IdType;
 import com.baomidou.mybatisplus.annotation.TableId;
-import lombok.Data;
-import lombok.EqualsAndHashCode;
-import lombok.experimental.Accessors;
+import website.lhc.lspace.commo.base.AbstractToString;
+
+import java.io.Serializable;
+import java.time.LocalDateTime;
 
 /**
  * <p>
@@ -17,10 +15,7 @@ import lombok.experimental.Accessors;
  * @author 龙海成
  * @since 2020-03-31
  */
-@Data
-@EqualsAndHashCode(callSuper = false)
-@Accessors(chain = true)
-public class SpRole implements Serializable {
+public class SpRole extends AbstractToString implements Serializable {
 
     private static final long serialVersionUID = 1L;
 
@@ -45,5 +40,35 @@ public class SpRole implements Serializable {
      */
     private LocalDateTime createTime;
 
+    public Integer getRoleId() {
+        return roleId;
+    }
 
+    public void setRoleId(Integer roleId) {
+        this.roleId = roleId;
+    }
+
+    public String getRoleName() {
+        return roleName;
+    }
+
+    public void setRoleName(String roleName) {
+        this.roleName = roleName;
+    }
+
+    public String getRemark() {
+        return remark;
+    }
+
+    public void setRemark(String remark) {
+        this.remark = remark;
+    }
+
+    public LocalDateTime getCreateTime() {
+        return createTime;
+    }
+
+    public void setCreateTime(LocalDateTime createTime) {
+        this.createTime = createTime;
+    }
 }

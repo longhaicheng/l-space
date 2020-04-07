@@ -1,6 +1,7 @@
 package website.lhc.lspace.system.user.controller;
 
-import lombok.extern.slf4j.Slf4j;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.PostMapping;
@@ -20,10 +21,10 @@ import website.lhc.lspace.system.user.service.ISpUserService;
  * @Description: 用户登录
  * @Date: 2020/4/1 上午 10:11
  */
-@Slf4j
 @Controller
 @RequestMapping(value = "/sys/user")
 public class UserController {
+    private static final Logger log = LoggerFactory.getLogger(UserController.class);
 
     @Autowired
     private ISpUserService spUserService;

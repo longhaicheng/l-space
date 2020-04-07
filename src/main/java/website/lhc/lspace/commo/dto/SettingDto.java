@@ -1,8 +1,5 @@
 package website.lhc.lspace.commo.dto;
 
-import lombok.Getter;
-import lombok.Setter;
-
 import javax.validation.constraints.NotBlank;
 import javax.validation.constraints.Size;
 
@@ -14,8 +11,7 @@ import javax.validation.constraints.Size;
  * @Description: SettingDto
  * @Date: 2020/4/2 下午 04:19
  */
-@Getter
-@Setter
+
 public class SettingDto {
 
     @Size(min = 0, max = 10, message = "名称不合法")
@@ -31,4 +27,36 @@ public class SettingDto {
 
     @Size(min = 0, max = 10, message = "备注不合法")
     private String remark;
+
+    public String getName() {
+        return Name;
+    }
+
+    public void setName(String name) {
+        Name = name;
+    }
+
+    public String getKey() {
+        return key;
+    }
+
+    public void setKey(String key) {
+        this.key = key;
+    }
+
+    public String getValue() {
+        return value;
+    }
+
+    public void setValue(String value) {
+        this.value = value;
+    }
+
+    public String getRemark() {
+        return remark;
+    }
+
+    public void setRemark(String remark) {
+        this.remark = remark;
+    }
 }
