@@ -31,8 +31,9 @@ public class TokenVerifyFilter extends BasicAuthenticationFilter {
     @Override
     protected void doFilterInternal(HttpServletRequest request, HttpServletResponse response, FilterChain chain) throws IOException, ServletException {
         String authorizationHead = request.getHeader("Authorization");
-        if (!StringUtils.hasLength(authorizationHead) || !authorizationHead.startsWith("Bearer ")) {
+        if (authorizationHead == null || !authorizationHead.startsWith("Bearer ")) {
             chain.doFilter(request, response);
+            return;
         }
         String message = "";
         UsernamePasswordAuthenticationToken token = null;

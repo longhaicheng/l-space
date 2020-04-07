@@ -7,6 +7,7 @@ import org.springframework.web.filter.OncePerRequestFilter;
 import website.lhc.lspace.commo.base.Resp;
 
 import javax.servlet.FilterChain;
+import javax.servlet.ServletException;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
@@ -21,11 +22,8 @@ import java.io.IOException;
  */
 public class ExceptionFilter extends OncePerRequestFilter {
 
-    public ExceptionFilter() {
-    }
-
     @Override
-    protected void doFilterInternal(HttpServletRequest request, HttpServletResponse response, FilterChain filterChain) throws IOException {
+    protected void doFilterInternal(HttpServletRequest request, HttpServletResponse response, FilterChain filterChain) throws IOException, ServletException {
         String msg = "";
         try {
             filterChain.doFilter(request, response);

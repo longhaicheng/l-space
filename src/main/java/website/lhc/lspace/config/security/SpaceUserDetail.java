@@ -18,17 +18,12 @@ public class SpaceUserDetail implements UserDetails {
     private static final long serialVersionUID = 1L;
 
     private String userAccount;
+
     private String password;
 
     private Integer status;
 
     private Collection<? extends GrantedAuthority> authorities;
-
-//    public SpaceUserDetail(String userAccount, String password, Collection<? extends GrantedAuthority> authorities) {
-//        this.userAccount = userAccount;
-//        this.password = password;
-//        this.authorities = authorities;
-//    }
 
 
     public SpaceUserDetail(String userAccount, String password, Integer status, Collection<? extends GrantedAuthority> authorities) {
