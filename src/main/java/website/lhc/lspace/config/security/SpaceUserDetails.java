@@ -19,6 +19,7 @@ import website.lhc.lspace.system.user.entity.SpUser;
 import website.lhc.lspace.system.user.mapper.SpUserMapper;
 
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.List;
 import java.util.Set;
 
@@ -61,8 +62,10 @@ public class SpaceUserDetails implements UserDetailsService {
         List<GrantedAuthority> authorities = new ArrayList<>();
         Set<String> roles = roleMapper.getRoles(spUser.getUserId());
         for (String role : roles) {
-            authorities.add(new SimpleGrantedAuthority(role));
+            authorities.add(new SimpleGrantedAuthority("ROLE_" + role));
         }
+
+        System.out.println(Arrays.toString(authorities.toArray()));
 
         PasswordEncoder passwordEncoder = new BCryptPasswordEncoder();
         String bCryptPassword = passwordEncoder.encode(spUser.getUserPasswd());

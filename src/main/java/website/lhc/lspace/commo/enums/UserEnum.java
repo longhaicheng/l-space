@@ -13,7 +13,12 @@ public enum UserEnum {
     /**
      * 超级管理员
      */
-    ADMIN(1);
+    ADMIN(1),
+
+    /**
+     * 普通用户
+     */
+    COMMO(2);
 
     private Integer userId;
 

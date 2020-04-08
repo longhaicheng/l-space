@@ -12,16 +12,23 @@ import org.springframework.security.authentication.UsernamePasswordAuthenticatio
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.authority.SimpleGrantedAuthority;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 import website.lhc.lspace.commo.base.Resp;
+import website.lhc.lspace.commo.dto.UserRegisterDto;
+import website.lhc.lspace.commo.enums.SpPostStatusEnum;
+import website.lhc.lspace.commo.enums.UserEnum;
+import website.lhc.lspace.commo.enums.UserStatus;
 import website.lhc.lspace.commo.util.TokenUtil;
+import website.lhc.lspace.system.post.entity.SpPost;
+import website.lhc.lspace.system.post.mapper.SpPostMapper;
 import website.lhc.lspace.system.role.mapper.SpRoleMapper;
+import website.lhc.lspace.system.role.mapper.UserRoleMapper;
 import website.lhc.lspace.system.user.entity.SpUser;
 import website.lhc.lspace.system.user.mapper.SpUserMapper;
 import website.lhc.lspace.system.user.service.ISpUserService;
 
-import java.text.SimpleDateFormat;
+import java.time.LocalDateTime;
 import java.util.ArrayList;
-import java.util.Date;
 import java.util.List;
 import java.util.Set;
 
@@ -47,6 +54,12 @@ public class SpUserServiceImpl extends ServiceImpl<SpUserMapper, SpUser> impleme
     @Autowired
     private SpRoleMapper roleMapper;
 
+    @Autowired
+    private SpPostMapper postMapper;
+
+    @Autowired
+    private UserRoleMapper userRoleMapper;
+
     @Override
     public Resp login(String account, String passwd) {
         UsernamePasswordAuthenticationToken token = new UsernamePasswordAuthenticationToken(account, passwd, null);
@@ -67,13 +80,53 @@ public class SpUserServiceImpl extends ServiceImpl<SpUserMapper, SpUser> impleme
         List<GrantedAuthority> authorities = new ArrayList<>();
         Set<String> roles = roleMapper.getRoles(spUser.getUserId());
         for (String role : roles) {
-            authorities.add(new SimpleGrantedAuthority(role));
+            authorities.add(new SimpleGrantedAuthority("ROLE_" + role));
         }
-        long exTime = System.currentTimeMillis() + 1000 * 60 * 3;
-        Date date = new Date(exTime);
-        SimpleDateFormat simpleDateFormat = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
-        System.out.println(simpleDateFormat.format(date));
-        String generateToken = TokenUtil.generateToken(account, authorities, date);
+        long exTime = System.currentTimeMillis() + 1000 * 60 * 10;
+        String generateToken = TokenUtil.generateToken(account, authorities);
         return Resp.ok(generateToken, exTime);
+    }
+
+    @Transactional(rollbackFor = Exception.class)
+    @Override
+    public Resp register(UserRegisterDto dto) {
+        // 判断是否存在同账户名
+        QueryWrapper<SpUser> accountQueryWrapper = new QueryWrapper<>();
+        accountQueryWrapper.eq("user_account", dto.getAccount());
+        int getSameAccountUser = userMapper.selectCount(accountQueryWrapper);
+        if (getSameAccountUser > 0) {
+            return Resp.error("该账户名已存在");
+        }
+
+        // 判断是否存在同用户名
+        QueryWrapper<SpUser> nameQueryWrapper = new QueryWrapper<>();
+        nameQueryWrapper.eq("user_name", dto.getUserName());
+        int getSameNameUser = userMapper.selectCount(nameQueryWrapper);
+        if (getSameNameUser > 0) {
+            return Resp.error("该用户名称已存在");
+        }
+
+        try {
+            // 插入用户表
+            SpUser insertUser = new SpUser();
+            insertUser.setUserName(dto.getUserName());
+            insertUser.setUserAccount(dto.getAccount());
+            insertUser.setUserPasswd(dto.getPassword());
+            insertUser.setPhone(dto.getPhone());
+            insertUser.setCreateTime(LocalDateTime.now());
+            insertUser.setStatus(UserStatus.ACTIVE.getStatus());
+            userMapper.insert(insertUser);
+
+            // 插入岗位表
+            SpPost spPost = new SpPost(dto.getPostName(), SpPostStatusEnum.ACTIVE.getStatus(), "admin", LocalDateTime.now(), "无");
+            postMapper.insert(spPost);
+
+            // 插入用户角色关系表
+            userRoleMapper.insertUserRole(insertUser.getUserId(), UserEnum.COMMO.getUserId());
+        } catch (Exception e) {
+            e.printStackTrace();
+            return Resp.error();
+        }
+        return Resp.ok();
     }
 }

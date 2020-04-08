@@ -8,7 +8,6 @@
         <result column="user_name" property="userName"/>
         <result column="user_account" property="userAccount"/>
         <result column="user_passwd" property="userPasswd"/>
-        <result column="salt" property="salt"/>
         <result column="phone" property="phone"/>
         <result column="status" property="status"/>
         <result column="user_mail" property="userMail"/>
@@ -18,7 +17,7 @@
 
     <!-- 通用查询结果列 -->
     <sql id="Base_Column_List">
-        user_id, user_name, user_account, user_passwd, salt, phone, status, user_mail, create_time, last_login_time
+        user_id, user_name, user_account, user_passwd, phone, status, user_mail, create_time, last_login_time
     </sql>
 
     <select id="getPermission" parameterType="java.lang.Integer" resultType="java.lang.String">

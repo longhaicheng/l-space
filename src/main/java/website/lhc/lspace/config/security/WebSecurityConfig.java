@@ -2,8 +2,10 @@ package website.lhc.lspace.config.security;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Bean;
+import org.springframework.http.HttpMethod;
 import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.config.annotation.authentication.builders.AuthenticationManagerBuilder;
+import org.springframework.security.config.annotation.method.configuration.EnableGlobalMethodSecurity;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity;
 import org.springframework.security.config.annotation.web.configuration.WebSecurityConfigurerAdapter;
@@ -21,6 +23,7 @@ import website.lhc.lspace.config.security.filter.TokenVerifyFilter;
  * @Date: 2020/4/5 上午 11:32
  */
 @EnableWebSecurity
+@EnableGlobalMethodSecurity(prePostEnabled = true)
 public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
 
     @Autowired
@@ -52,15 +55,14 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
      */
     @Override
     protected void configure(HttpSecurity http) throws Exception {
-        http.authorizeRequests().antMatchers("/sys/user/login").permitAll()
+        http.authorizeRequests()
+                .antMatchers(HttpMethod.POST, "/sys/user/authenticate").permitAll()
+                .antMatchers(HttpMethod.POST, "/sys/user/register").permitAll()
                 .anyRequest().authenticated()
                 .and()
                 .logout().logoutUrl("/sys/user/logout")
                 .and()
-                .httpBasic()
-                .and()
                 .csrf().disable()
-//                .addFilter(new LoginFilter(authenticationManager()))
                 .addFilter(new TokenVerifyFilter(authenticationManager()))
                 .addFilterBefore(new ExceptionFilter(), TokenVerifyFilter.class)
                 .sessionManagement()

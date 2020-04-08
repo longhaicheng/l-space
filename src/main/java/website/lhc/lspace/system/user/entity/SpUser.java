@@ -39,10 +39,6 @@ public class SpUser implements Serializable {
      */
     private String userPasswd;
 
-    /**
-     * 盐
-     */
-    private String salt;
 
     /**
      * 手机号
@@ -101,13 +97,6 @@ public class SpUser implements Serializable {
         this.userPasswd = userPasswd;
     }
 
-    public String getSalt() {
-        return salt;
-    }
-
-    public void setSalt(String salt) {
-        this.salt = salt;
-    }
 
     public String getPhone() {
         return phone;

@@ -20,6 +20,14 @@ public class SpPost extends AbstractToString implements Serializable {
 
     private static final long serialVersionUID = 1L;
 
+    public SpPost(String postName, Integer status, String createBy, LocalDateTime createTime, String remark) {
+        this.postName = postName;
+        this.status = status;
+        this.createBy = createBy;
+        this.createTime = createTime;
+        this.remark = remark;
+    }
+
     @TableId(type = IdType.AUTO)
     private Integer id;
 

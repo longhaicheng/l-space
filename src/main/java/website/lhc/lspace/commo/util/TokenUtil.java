@@ -43,8 +43,8 @@ public class TokenUtil implements Serializable {
      * 签名有效期
      * 5分钟
      */
-//    private static final Date EXPIRATION_TIME = new Date(System.currentTimeMillis() + 1000 * 60 *5);
-    private static final Date EXPIRATION_TIME = new Date(System.currentTimeMillis() + 1000 * 5);
+    private static final Date EXPIRATION_TIME = new Date(System.currentTimeMillis() + 1000 * 60 * 100);
+    //    private static final Date EXPIRATION_TIME = new Date(System.currentTimeMillis() + 1000 * 5);
     private static final long serialVersionUID = 1L;
 
     /**
@@ -54,7 +54,7 @@ public class TokenUtil implements Serializable {
      * @param roleList roleList 角色
      * @return String token
      */
-    public static String generateToken(String userName, Collection<? extends GrantedAuthority> roleList, Date expiration) {
+    public static String generateToken(String userName, Collection<? extends GrantedAuthority> roleList) {
         Map<String, Object> map = new HashMap<>(2);
         map.put("typ", TYPE);
         map.put("alg", "HS512");
@@ -68,7 +68,7 @@ public class TokenUtil implements Serializable {
         info.put("role", list);
         String s = Jwts.builder()
                 .setClaims(info)
-                .setExpiration(expiration)
+                .setExpiration(EXPIRATION_TIME)
                 .setId(new AlternativeJdkIdGenerator().generateId().toString())
                 .setIssuedAt(new Date())
                 .setIssuer(ISSUER)
