@@ -10,7 +10,7 @@
 3. 完成登录接口：通过账号和密码登录，返回token
 * 接口说明：
     * 请求方式： POST
-    * 请求地址： http://localhost:8080/sys/user/login
+    * 请求地址： http://localhost:8080/sys/user/authenticate
     * 请求示例：
     ```json
     {
