@@ -2,6 +2,7 @@ package website.lhc.lspace.system.user.entity;
 
 import com.baomidou.mybatisplus.annotation.IdType;
 import com.baomidou.mybatisplus.annotation.TableId;
+import website.lhc.lspace.commo.base.AbstractToString;
 
 import java.io.Serializable;
 import java.time.LocalDateTime;
@@ -14,7 +15,7 @@ import java.time.LocalDateTime;
  * @author 龙海成
  * @since 2020-03-31
  */
-public class SpUser implements Serializable {
+public class SpUser extends AbstractToString implements Serializable {
 
     private static final long serialVersionUID = 1L;
 
@@ -64,6 +65,7 @@ public class SpUser implements Serializable {
      * 最后一次登录时间
      */
     private LocalDateTime lastLoginTime;
+
 
     public Integer getUserId() {
         return userId;

@@ -1,6 +1,7 @@
 package website.lhc.lspace.config.security;
 
-import com.baomidou.mybatisplus.core.conditions.query.QueryWrapper;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.authentication.DisabledException;
 import org.springframework.security.authentication.LockedException;
@@ -19,7 +20,6 @@ import website.lhc.lspace.system.user.entity.SpUser;
 import website.lhc.lspace.system.user.mapper.SpUserMapper;
 
 import java.util.ArrayList;
-import java.util.Arrays;
 import java.util.List;
 import java.util.Set;
 
@@ -32,7 +32,9 @@ import java.util.Set;
  * @Date: 2020/4/5 下午 12:09
  */
 @Component
-public class SpaceUserDetails implements UserDetailsService {
+public class SpaceUserDetailsImpl implements UserDetailsService {
+
+    private static final Logger log = LoggerFactory.getLogger(SpaceUserDetailsImpl.class);
 
 
     @Autowired
@@ -46,9 +48,8 @@ public class SpaceUserDetails implements UserDetailsService {
         if (!StringUtils.hasText(username)) {
             throw new UsernameNotFoundException("[username]为空");
         }
-        QueryWrapper<SpUser> queryWrapper = new QueryWrapper<>();
-        queryWrapper.eq("user_account", username);
-        SpUser spUser = userMapper.selectOne(queryWrapper);
+
+        SpUser spUser = userMapper.getUserByAccount(username);
         if (spUser == null) {
             throw new UsernameNotFoundException("用户不存在");
         }
@@ -64,9 +65,7 @@ public class SpaceUserDetails implements UserDetailsService {
         for (String role : roles) {
             authorities.add(new SimpleGrantedAuthority("ROLE_" + role));
         }
-
-        System.out.println(Arrays.toString(authorities.toArray()));
-
+        log.info("user:{}; roles:{}", spUser.toString(), authorities.toString());
         PasswordEncoder passwordEncoder = new BCryptPasswordEncoder();
         String bCryptPassword = passwordEncoder.encode(spUser.getUserPasswd());
         return new SpaceUserDetail(spUser.getUserAccount(), bCryptPassword, spUser.getStatus(), authorities);

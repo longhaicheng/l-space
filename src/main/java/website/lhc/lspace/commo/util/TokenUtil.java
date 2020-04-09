@@ -39,12 +39,7 @@ public class TokenUtil implements Serializable {
      */
     private static final String ISSUER = "l-space";
 
-    /**
-     * 签名有效期
-     * 5分钟
-     */
-    private static final Date EXPIRATION_TIME = new Date(System.currentTimeMillis() + 1000 * 60 * 100);
-    //    private static final Date EXPIRATION_TIME = new Date(System.currentTimeMillis() + 1000 * 5);
+
     private static final long serialVersionUID = 1L;
 
     /**
@@ -54,7 +49,7 @@ public class TokenUtil implements Serializable {
      * @param roleList roleList 角色
      * @return String token
      */
-    public static String generateToken(String userName, Collection<? extends GrantedAuthority> roleList) {
+    public static String generateToken(String userName, Collection<? extends GrantedAuthority> roleList, Date expiration) {
         Map<String, Object> map = new HashMap<>(2);
         map.put("typ", TYPE);
         map.put("alg", "HS512");
@@ -68,7 +63,7 @@ public class TokenUtil implements Serializable {
         info.put("role", list);
         String s = Jwts.builder()
                 .setClaims(info)
-                .setExpiration(EXPIRATION_TIME)
+                .setExpiration(expiration)
                 .setId(new AlternativeJdkIdGenerator().generateId().toString())
                 .setIssuedAt(new Date())
                 .setIssuer(ISSUER)
@@ -113,7 +108,7 @@ public class TokenUtil implements Serializable {
         return date.before(new Date());
     }
 
-    public static String refreshToken(String toke) {
+    public static String refreshToken(String toke, Date expiration) {
         String subject = getSubjectFromToken(toke);
         if (StringUtils.hasLength(subject)) {
             Map<String, Object> map = new HashMap<>(2);
@@ -121,7 +116,7 @@ public class TokenUtil implements Serializable {
             map.put("alg", "HS256");
             return Jwts.builder()
                     .setSubject(subject)
-                    .setExpiration(EXPIRATION_TIME)
+                    .setExpiration(expiration)
                     .setId(new AlternativeJdkIdGenerator().generateId().toString())
                     .setIssuedAt(new Date())
                     .setIssuer(ISSUER)

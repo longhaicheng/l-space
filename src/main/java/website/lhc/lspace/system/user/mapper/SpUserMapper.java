@@ -15,7 +15,18 @@ import java.util.List;
  */
 public interface SpUserMapper extends BaseMapper<SpUser> {
 
+
+    /**
+     * @param userId userId
+     * @return List<String>
+     */
     List<String> getPermission(Integer userId);
 
-
+    /**
+     * 账号查找用户
+     *
+     * @param account account
+     * @return SpUser
+     */
+    SpUser getUserByAccount(String account);
 }

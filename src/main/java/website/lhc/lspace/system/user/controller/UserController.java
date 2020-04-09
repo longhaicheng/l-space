@@ -15,8 +15,6 @@ import website.lhc.lspace.commo.dto.UserRegisterDto;
 import website.lhc.lspace.commo.verify.ValidatorUtil;
 import website.lhc.lspace.system.user.service.ISpUserService;
 
-import javax.annotation.security.PermitAll;
-
 /**
  * @ProjectName: l-space
  * @Package: website.lhc.lspace.system.user.controller
@@ -34,7 +32,6 @@ public class UserController {
     private ISpUserService spUserService;
 
 
-    @PermitAll
     @ResponseBody
     @PostMapping(value = "/authenticate")
     public Resp login(@RequestBody LoginDto loginDto) {
@@ -43,9 +40,9 @@ public class UserController {
     }
 
 
-    @PreAuthorize("hasAuthority('ROLE_user1')")
     @ResponseBody
     @PostMapping(value = "/register")
+    @PreAuthorize("hasAuthority('ROLE_admin')")
     public Resp UserRegister(@RequestBody UserRegisterDto registerDto) {
         ValidatorUtil.verify(registerDto);
         return spUserService.register(registerDto);

@@ -29,6 +29,7 @@ import website.lhc.lspace.system.user.service.ISpUserService;
 
 import java.time.LocalDateTime;
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.List;
 import java.util.Set;
 
@@ -44,6 +45,13 @@ import java.util.Set;
 public class SpUserServiceImpl extends ServiceImpl<SpUserMapper, SpUser> implements ISpUserService {
 
     private static final Logger log = LoggerFactory.getLogger(SpUserServiceImpl.class);
+
+
+    /**
+     * 签名有效期
+     * 一小时
+     */
+    private static final Date EXPIRATION_TIME = new Date(System.currentTimeMillis() + 1000 * 60 * 60);
 
     @Autowired
     private AuthenticationManager authenticationManager;
@@ -82,9 +90,8 @@ public class SpUserServiceImpl extends ServiceImpl<SpUserMapper, SpUser> impleme
         for (String role : roles) {
             authorities.add(new SimpleGrantedAuthority("ROLE_" + role));
         }
-        long exTime = System.currentTimeMillis() + 1000 * 60 * 10;
-        String generateToken = TokenUtil.generateToken(account, authorities);
-        return Resp.ok(generateToken, exTime);
+        String generateToken = TokenUtil.generateToken(account, authorities, EXPIRATION_TIME);
+        return Resp.ok(generateToken, EXPIRATION_TIME.getTime());
     }
 
     @Transactional(rollbackFor = Exception.class)

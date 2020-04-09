@@ -27,7 +27,7 @@ import website.lhc.lspace.config.security.filter.TokenVerifyFilter;
 public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
 
     @Autowired
-    private SpaceUserDetails userDetails;
+    private SpaceUserDetailsImpl userDetails;
 
 
     @Bean

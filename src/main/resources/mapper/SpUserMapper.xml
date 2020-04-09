@@ -28,5 +28,16 @@
         WHERE r.user_id = #{userId}
     </select>
 
+    <select id="getUserByAccount" parameterType="java.lang.String"
+            resultType="website.lhc.lspace.system.user.entity.SpUser">
+        SELECT user_id      as userId,
+               user_name    as userName,
+               user_account as userAccount,
+               user_passwd  as userPasswd,
+               `status`
+        FROM `sp_user`
+        WHERE user_account = #{account}
+    </select>
+
 
 </mapper>
