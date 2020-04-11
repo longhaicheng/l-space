@@ -11,11 +11,53 @@
  Target Server Version : 100411
  File Encoding         : 65001
 
- Date: 09/04/2020 01:02:47
+ Date: 11/04/2020 17:29:21
 */
 
 SET NAMES utf8mb4;
 SET FOREIGN_KEY_CHECKS = 0;
+
+-- ----------------------------
+-- Table structure for menu
+-- ----------------------------
+DROP TABLE IF EXISTS `menu`;
+CREATE TABLE `menu`
+(
+    `menu_id`     int(10) UNSIGNED                                        NOT NULL AUTO_INCREMENT COMMENT '主键',
+    `parent_id`   int(11)                                                 NOT NULL COMMENT '父id',
+    `url`         varchar(100) CHARACTER SET utf8 COLLATE utf8_general_ci NULL DEFAULT NULL COMMENT '地址',
+    `menu_name`   varchar(20) CHARACTER SET utf8 COLLATE utf8_general_ci  NOT NULL COMMENT '菜单名称',
+    `display`     tinyint(1)                                              NOT NULL COMMENT '是否显示；0：显示；1：不显示',
+    `create_time` datetime(0)                                             NOT NULL COMMENT '创建时间',
+    `create_by`   varchar(20) CHARACTER SET utf8 COLLATE utf8_general_ci  NULL DEFAULT NULL COMMENT '创建人',
+    PRIMARY KEY (`menu_id`) USING BTREE
+) ENGINE = InnoDB
+  AUTO_INCREMENT = 10
+  CHARACTER SET = utf8
+  COLLATE = utf8_general_ci COMMENT = '前台菜单表'
+  ROW_FORMAT = Dynamic;
+
+-- ----------------------------
+-- Records of menu
+-- ----------------------------
+INSERT INTO `menu`
+VALUES (1, 0, NULL, '父菜单', 0, '2020-04-10 11:31:30', '小明');
+INSERT INTO `menu`
+VALUES (2, 1, NULL, '子菜单0', 0, '2020-04-10 11:32:08', '小明');
+INSERT INTO `menu`
+VALUES (3, 1, NULL, '子菜单1', 0, '2020-04-10 11:32:17', '小明');
+INSERT INTO `menu`
+VALUES (4, 1, NULL, '子菜单2', 0, '2020-04-10 11:32:25', '小明');
+INSERT INTO `menu`
+VALUES (5, 0, NULL, '父菜单1', 0, '2020-04-10 11:32:52', '小明');
+INSERT INTO `menu`
+VALUES (6, 0, NULL, '父菜单2', 0, '2020-04-10 11:32:56', '小明');
+INSERT INTO `menu`
+VALUES (7, 0, NULL, '父菜单3', 0, '2020-04-10 11:33:00', '小明');
+INSERT INTO `menu`
+VALUES (8, 0, NULL, '父菜单4', 0, '2020-04-10 11:33:04', '小明');
+INSERT INTO `menu`
+VALUES (9, 0, NULL, '父菜单5', 0, '2020-04-10 11:33:08', '小明');
 
 -- ----------------------------
 -- Table structure for sp_log
@@ -73,7 +115,7 @@ CREATE TABLE `sp_menu`
     `order_num` int(11)                                                 NOT NULL COMMENT '排序',
     PRIMARY KEY (`menu_id`) USING BTREE
 ) ENGINE = InnoDB
-  AUTO_INCREMENT = 2
+  AUTO_INCREMENT = 13
   CHARACTER SET = utf8
   COLLATE = utf8_general_ci COMMENT = '菜单管理表\r\n'
   ROW_FORMAT = Compact;
@@ -83,6 +125,26 @@ CREATE TABLE `sp_menu`
 -- ----------------------------
 INSERT INTO `sp_menu`
 VALUES (1, 0, '系统管理', '#', NULL, 0, NULL, 0);
+INSERT INTO `sp_menu`
+VALUES (2, 1, '菜单管理', '#', 'sys:menu:*', 1, NULL, 1);
+INSERT INTO `sp_menu`
+VALUES (3, 2, '添加菜单', NULL, 'sys:menu:add', 2, NULL, 0);
+INSERT INTO `sp_menu`
+VALUES (4, 2, '删除菜单', NULL, 'sys:menu:del', 2, NULL, 0);
+INSERT INTO `sp_menu`
+VALUES (5, 2, '获取菜单', NULL, 'sys:menu:get', 2, NULL, 0);
+INSERT INTO `sp_menu`
+VALUES (6, 2, '修改菜单', NULL, 'sys:menu:alter', 2, NULL, 0);
+INSERT INTO `sp_menu`
+VALUES (7, 0, '对象存储', '#', NULL, 1, NULL, 0);
+INSERT INTO `sp_menu`
+VALUES (8, 7, '添加存储配置', NULL, 'sys:oss:add', 2, NULL, 0);
+INSERT INTO `sp_menu`
+VALUES (9, 7, '删除对象存储', NULL, 'sys:oss:del', 2, NULL, 0);
+INSERT INTO `sp_menu`
+VALUES (10, 7, '获取对象存储', NULL, 'sys:oss:get', 2, NULL, 0);
+INSERT INTO `sp_menu`
+VALUES (11, 7, '修改对象存储配置', NULL, 'sys:oss:alter', 2, NULL, 0);
 
 -- ----------------------------
 -- Table structure for sp_post
@@ -100,7 +162,7 @@ CREATE TABLE `sp_post`
     `remark`      varchar(200) CHARACTER SET utf8 COLLATE utf8_general_ci NULL DEFAULT NULL COMMENT '备注',
     PRIMARY KEY (`id`) USING BTREE
 ) ENGINE = InnoDB
-  AUTO_INCREMENT = 4
+  AUTO_INCREMENT = 5
   CHARACTER SET = utf8
   COLLATE = utf8_general_ci COMMENT = '岗位信息表'
   ROW_FORMAT = Compact;
@@ -114,6 +176,8 @@ INSERT INTO `sp_post`
 VALUES (2, '测试岗位', 0, 'admin', '2020-04-09 00:42:53', NULL, NULL, '无');
 INSERT INTO `sp_post`
 VALUES (3, '测试岗位1', 0, 'admin', '2020-04-09 00:44:40', NULL, NULL, '无');
+INSERT INTO `sp_post`
+VALUES (4, '测试岗位2', 0, 'admin', '2020-04-10 11:16:22', NULL, NULL, '无');
 
 -- ----------------------------
 -- Table structure for sp_role
@@ -207,7 +271,7 @@ CREATE TABLE `sp_user`
     `last_login_time` datetime(0)                                            NULL DEFAULT NULL COMMENT '最后一次登录时间',
     PRIMARY KEY (`user_id`) USING BTREE
 ) ENGINE = InnoDB
-  AUTO_INCREMENT = 9
+  AUTO_INCREMENT = 10
   CHARACTER SET = utf8
   COLLATE = utf8_general_ci COMMENT = '用户表'
   ROW_FORMAT = Compact;
@@ -225,6 +289,8 @@ INSERT INTO `sp_user`
 VALUES (7, 'reqwre', 'fasfewreqwr', 'fdafdsfd', '12345', 0, NULL, '2020-04-09 00:42:53', NULL);
 INSERT INTO `sp_user`
 VALUES (8, '1111111111', '22222222', 'fdafdsfd', '12345', 0, NULL, '2020-04-09 00:44:40', NULL);
+INSERT INTO `sp_user`
+VALUES (9, '23432', '53425435', '5432543', '12345', 0, NULL, '2020-04-10 11:16:22', NULL);
 
 -- ----------------------------
 -- Table structure for sp_user_role
@@ -237,7 +303,7 @@ CREATE TABLE `sp_user_role`
     `role_id` int(11) NOT NULL COMMENT '角色编号',
     PRIMARY KEY (`id`) USING BTREE
 ) ENGINE = InnoDB
-  AUTO_INCREMENT = 4
+  AUTO_INCREMENT = 5
   CHARACTER SET = utf8
   COLLATE = utf8_general_ci COMMENT = '用户角色表'
   ROW_FORMAT = Compact;
@@ -251,5 +317,7 @@ INSERT INTO `sp_user_role`
 VALUES (2, 1, 2);
 INSERT INTO `sp_user_role`
 VALUES (3, 8, 2);
+INSERT INTO `sp_user_role`
+VALUES (4, 9, 2);
 
 SET FOREIGN_KEY_CHECKS = 1;
