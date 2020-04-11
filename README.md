@@ -10,7 +10,7 @@
 3. 完成登录接口：通过账号和密码登录，返回token
 * 接口说明：
     * 请求方式： POST
-    * 请求地址： http://118.126.117.177:8080/sys/user/authenticate
+    * 请求地址： http://localhost:8080/sys/user/authenticate
     * 请求示例：
     ```json
     {
@@ -29,7 +29,7 @@
     ```
 * 获取token之后，将token存放在header中请求受保护的接口
     * 请求方式：POST
-    * 请求地址：http://118.126.117.177:8080/sys/setting/list
+    * 请求地址：http://localhost:8080/sys/setting/list
     * 请求示例：
     ```bash
         curl --location --request POST 'http://118.126.117.177:8080/sys/setting/list' \
