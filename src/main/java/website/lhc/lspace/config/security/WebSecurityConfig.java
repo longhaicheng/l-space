@@ -70,6 +70,7 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
         http.authorizeRequests()
                 .antMatchers(HttpMethod.POST, "/sys/user/authenticate").permitAll()
                 .antMatchers(HttpMethod.POST, "/sys/menu/getMenus").permitAll()
+                .antMatchers(HttpMethod.POST, "/qiniu/getCallBackInfo").permitAll()
                 .anyRequest().authenticated()
                 .and()
                 .csrf().disable()

@@ -16,7 +16,6 @@ import org.springframework.stereotype.Component;
 import org.springframework.util.StringUtils;
 import website.lhc.lspace.commo.enums.UserStatus;
 import website.lhc.lspace.system.menu.mapper.SpMenuMapper;
-import website.lhc.lspace.system.role.mapper.SpRoleMapper;
 import website.lhc.lspace.system.user.entity.SpUser;
 import website.lhc.lspace.system.user.mapper.SpUserMapper;
 
@@ -40,9 +39,6 @@ public class SpaceUserDetailsImpl implements UserDetailsService {
 
     @Autowired
     private SpUserMapper userMapper;
-
-    @Autowired
-    private SpRoleMapper roleMapper;
 
     @Autowired
     private SpMenuMapper menuMapper;
