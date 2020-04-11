@@ -8,10 +8,10 @@ import website.lhc.lspace.commo.exception.SpaceException;
  * @Package: website.lhc.space.commo.exception.system
  * @ClassName: SystemException
  * @Author: lhc
- * @Description: SystemException
+ * @Description: 系统模块异常
  * @Date: 2020/3/24 上午 12:13
  */
-public abstract class SystemException extends SpaceException {
+public class SystemException extends SpaceException {
 
     private static final long serialVersionUID = 1L;
 

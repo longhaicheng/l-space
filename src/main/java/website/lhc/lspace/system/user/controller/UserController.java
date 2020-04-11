@@ -20,7 +20,7 @@ import website.lhc.lspace.system.user.service.ISpUserService;
  * @Package: website.lhc.lspace.system.user.controller
  * @ClassName: UserController
  * @Author: lhc
- * @Description: 用户登录
+ * @Description: 用户相关，
  * @Date: 2020/4/1 上午 10:11
  */
 @Controller
@@ -32,6 +32,12 @@ public class UserController {
     private ISpUserService spUserService;
 
 
+    /**
+     * 用户认证并获取token
+     *
+     * @param loginDto LoginDto
+     * @return Resp
+     */
     @ResponseBody
     @PostMapping(value = "/authenticate")
     public Resp login(@RequestBody LoginDto loginDto) {
@@ -39,10 +45,15 @@ public class UserController {
         return spUserService.login(loginDto.getUserAccount(), loginDto.getUserPasswd());
     }
 
-
+    /**
+     * 用户注册
+     *
+     * @param registerDto registerDto
+     * @return Resp
+     */
     @ResponseBody
     @PostMapping(value = "/register")
-    @PreAuthorize("hasAuthority('ROLE_admin')")
+    @PreAuthorize(value = "hasAnyAuthority('sys:menu:*')")
     public Resp UserRegister(@RequestBody UserRegisterDto registerDto) {
         ValidatorUtil.verify(registerDto);
         return spUserService.register(registerDto);

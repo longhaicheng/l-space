@@ -9,8 +9,6 @@ import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.authentication.BadCredentialsException;
 import org.springframework.security.authentication.InternalAuthenticationServiceException;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
-import org.springframework.security.core.GrantedAuthority;
-import org.springframework.security.core.authority.SimpleGrantedAuthority;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import website.lhc.lspace.commo.base.Resp;
@@ -21,17 +19,13 @@ import website.lhc.lspace.commo.enums.UserStatus;
 import website.lhc.lspace.commo.util.TokenUtil;
 import website.lhc.lspace.system.post.entity.SpPost;
 import website.lhc.lspace.system.post.mapper.SpPostMapper;
-import website.lhc.lspace.system.role.mapper.SpRoleMapper;
 import website.lhc.lspace.system.role.mapper.UserRoleMapper;
 import website.lhc.lspace.system.user.entity.SpUser;
 import website.lhc.lspace.system.user.mapper.SpUserMapper;
 import website.lhc.lspace.system.user.service.ISpUserService;
 
 import java.time.LocalDateTime;
-import java.util.ArrayList;
 import java.util.Date;
-import java.util.List;
-import java.util.Set;
 
 /**
  * <p>
@@ -60,9 +54,6 @@ public class SpUserServiceImpl extends ServiceImpl<SpUserMapper, SpUser> impleme
     private SpUserMapper userMapper;
 
     @Autowired
-    private SpRoleMapper roleMapper;
-
-    @Autowired
     private SpPostMapper postMapper;
 
     @Autowired
@@ -80,17 +71,7 @@ public class SpUserServiceImpl extends ServiceImpl<SpUserMapper, SpUser> impleme
         } catch (Exception e) {
             return Resp.error();
         }
-
-
-        QueryWrapper<SpUser> userWrapper = new QueryWrapper<>();
-        userWrapper.eq("user_account", account);
-        SpUser spUser = userMapper.selectOne(userWrapper);
-        List<GrantedAuthority> authorities = new ArrayList<>();
-        Set<String> roles = roleMapper.getRoles(spUser.getUserId());
-        for (String role : roles) {
-            authorities.add(new SimpleGrantedAuthority("ROLE_" + role));
-        }
-        String generateToken = TokenUtil.generateToken(account, authorities, EXPIRATION_TIME);
+        String generateToken = TokenUtil.generateToken(account, EXPIRATION_TIME);
         return Resp.ok(generateToken, EXPIRATION_TIME.getTime());
     }
 

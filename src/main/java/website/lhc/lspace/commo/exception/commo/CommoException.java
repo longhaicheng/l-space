@@ -8,7 +8,7 @@ import website.lhc.lspace.commo.exception.SpaceException;
  * @Package: website.lhc.space.commo.exception.commo
  * @ClassName: CommoException
  * @Author: lhc
- * @Description: CommoException
+ * @Description: commo模块异常，不可直接抛出
  * @Date: 2020/3/24 上午 12:10
  */
 public abstract class CommoException extends SpaceException {

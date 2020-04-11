@@ -19,7 +19,7 @@ import website.lhc.lspace.config.security.filter.TokenVerifyFilter;
  * @Package: website.lhc.lspace.config.security
  * @ClassName: WebSecurityConfig
  * @Author: lhc
- * @Description: TODO
+ * @Description: SpringSecurity配置类
  * @Date: 2020/4/5 上午 11:32
  */
 @EnableWebSecurity
@@ -34,6 +34,18 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
     @Override
     public AuthenticationManager authenticationManagerBean() throws Exception {
         return super.authenticationManagerBean();
+    }
+
+    /**
+     * 注入自定义过滤器
+     *
+     * @param authenticationManager authenticationManager
+     * @return TokenVerifyFilter
+     * @throws Exception
+     */
+    @Bean
+    public TokenVerifyFilter tokenFilter(AuthenticationManager authenticationManager) throws Exception {
+        return new TokenVerifyFilter(authenticationManagerBean());
     }
 
     /**
@@ -57,13 +69,13 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
     protected void configure(HttpSecurity http) throws Exception {
         http.authorizeRequests()
                 .antMatchers(HttpMethod.POST, "/sys/user/authenticate").permitAll()
-                .antMatchers(HttpMethod.POST, "/sys/user/register").permitAll()
+                .antMatchers(HttpMethod.POST, "/sys/menu/getMenus").permitAll()
                 .anyRequest().authenticated()
                 .and()
-                .logout().logoutUrl("/sys/user/logout")
-                .and()
                 .csrf().disable()
-                .addFilter(new TokenVerifyFilter(authenticationManager()))
+//                .addFilter(new TokenVerifyFilter(authenticationManager()))
+                .addFilter(tokenFilter(authenticationManager()))
+
                 .addFilterBefore(new ExceptionFilter(), TokenVerifyFilter.class)
                 .sessionManagement()
                 .sessionCreationPolicy(SessionCreationPolicy.STATELESS);

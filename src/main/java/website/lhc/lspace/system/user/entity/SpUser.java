@@ -139,4 +139,5 @@ public class SpUser extends AbstractToString implements Serializable {
     public void setLastLoginTime(LocalDateTime lastLoginTime) {
         this.lastLoginTime = lastLoginTime;
     }
+
 }

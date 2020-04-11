@@ -1,7 +1,10 @@
 package website.lhc.lspace.system.setting.controller;
 
 import com.baomidou.mybatisplus.core.conditions.query.QueryWrapper;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -27,14 +30,19 @@ import java.util.List;
 @RequestMapping(value = "/sys/setting")
 public class SettingController {
 
+    private static final Logger log = LoggerFactory.getLogger(SettingController.class);
+
     @Autowired
     private ISpSettingService settingService;
 
+    //    @PreAuthorize(value = "hasAuthority('sys:setting:get')")
     @PostMapping(value = "/list")
     public Resp listSetting() {
         QueryWrapper<SpSetting> queryWrapper = new QueryWrapper<>();
         queryWrapper.eq("status", 0);
         List<SpSetting> settingList = settingService.list(queryWrapper);
+
+        log.info("object:{}", SecurityContextHolder.getContext().getAuthentication().getPrincipal());
         return Resp.ok(settingList);
     }
 

@@ -12,20 +12,22 @@ import org.springframework.data.redis.serializer.StringRedisSerializer;
  * @Package: website.lhc.lspace.config.redis
  * @ClassName: RedisConfig
  * @Author: lhc
- * @Description: RedisConfig
+ * @Description: SpringDataRedis配置类
  * @Date: 2020/3/31 下午 11:47
  */
 @Configuration
 public class RedisConfig {
+    /**
+     * 修改默认的序列化方式
+     *
+     * @param redisConnectionFactory redisConnectionFactory
+     * @return RedisTemplate
+     */
     @Bean
     public RedisTemplate<String, Object> redisTemplate(RedisConnectionFactory redisConnectionFactory) {
         RedisTemplate<String, Object> redisTemplate = new RedisTemplate<>();
         Jackson2JsonRedisSerializer<Object> jackson2JsonRedisSerializer = new Jackson2JsonRedisSerializer<>(Object.class);
         redisTemplate.setConnectionFactory(redisConnectionFactory);
-//        redisTemplate.setDefaultSerializer(jackson2JsonRedisSerializer);
-//        redisTemplate.setKeySerializer(jackson2JsonRedisSerializer);
-//        redisTemplate.setValueSerializer(jackson2JsonRedisSerializer);
-//        redisTemplate.setStringSerializer(new StringRedisSerializer());
         redisTemplate.setDefaultSerializer(new StringRedisSerializer());
         redisTemplate.setKeySerializer(new StringRedisSerializer());
         redisTemplate.setValueSerializer(new StringRedisSerializer());

@@ -10,7 +10,7 @@ import java.util.Map;
  * @Package: website.lhc.lspace.commo.base
  * @ClassName: Resp
  * @Author: lhc
- * @Description: Resp
+ * @Description: 基础返回类
  * @Date: 2020/4/1 上午 10:14
  */
 public class Resp extends HashMap<String, Object> {

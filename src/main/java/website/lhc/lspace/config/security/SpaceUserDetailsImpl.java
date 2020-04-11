@@ -15,6 +15,7 @@ import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Component;
 import org.springframework.util.StringUtils;
 import website.lhc.lspace.commo.enums.UserStatus;
+import website.lhc.lspace.system.menu.mapper.SpMenuMapper;
 import website.lhc.lspace.system.role.mapper.SpRoleMapper;
 import website.lhc.lspace.system.user.entity.SpUser;
 import website.lhc.lspace.system.user.mapper.SpUserMapper;
@@ -28,7 +29,7 @@ import java.util.Set;
  * @Package: website.lhc.lspace.config.security
  * @ClassName: SpaceUserDetails
  * @Author: lhc
- * @Description: TODO
+ * @Description: 自定义用户认证
  * @Date: 2020/4/5 下午 12:09
  */
 @Component
@@ -43,6 +44,16 @@ public class SpaceUserDetailsImpl implements UserDetailsService {
     @Autowired
     private SpRoleMapper roleMapper;
 
+    @Autowired
+    private SpMenuMapper menuMapper;
+
+    /**
+     * 用户校验，并获取权限
+     *
+     * @param username
+     * @return
+     * @throws UsernameNotFoundException
+     */
     @Override
     public UserDetails loadUserByUsername(String username) throws UsernameNotFoundException {
         if (!StringUtils.hasText(username)) {
@@ -61,9 +72,11 @@ public class SpaceUserDetailsImpl implements UserDetailsService {
         }
 
         List<GrantedAuthority> authorities = new ArrayList<>();
-        Set<String> roles = roleMapper.getRoles(spUser.getUserId());
-        for (String role : roles) {
-            authorities.add(new SimpleGrantedAuthority("ROLE_" + role));
+        Set<String> permissionSet = menuMapper.listPermissionByUserId(spUser.getUserId());
+        for (String s : permissionSet) {
+            if (StringUtils.hasText(s)) {
+                authorities.add(new SimpleGrantedAuthority(s));
+            }
         }
         log.info("user:{}; roles:{}", spUser.toString(), authorities.toString());
         PasswordEncoder passwordEncoder = new BCryptPasswordEncoder();

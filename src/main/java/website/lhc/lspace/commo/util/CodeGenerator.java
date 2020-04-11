@@ -19,7 +19,7 @@ import java.util.Scanner;
  * @Package: website.lhc.space.commo.util
  * @ClassName: CodeGenerator
  * @Author: lhc
- * @Description: TODO
+ * @Description: mybatis-plus代码生成器
  * @Date: 2020/3/31 下午 09:29
  */
 public class CodeGenerator {
@@ -60,10 +60,10 @@ public class CodeGenerator {
 
         // 数据源配置
         DataSourceConfig dsc = new DataSourceConfig();
-        dsc.setUrl("jdbc:mysql://120.79.180.167:3306/space?useUnicode=true&useSSL=false&characterEncoding=utf8");
+        dsc.setUrl("jdbc:mysql://localhost:3306/space?useUnicode=true&useSSL=false&characterEncoding=utf8");
         dsc.setDriverName("com.mysql.jdbc.Driver");
-        dsc.setUsername("lhc");
-        dsc.setPassword("123456");
+        dsc.setUsername("root");
+        dsc.setPassword("");
         mpg.setDataSource(dsc);
 
         // 包配置

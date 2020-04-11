@@ -5,7 +5,7 @@ package website.lhc.lspace.commo.enums;
  * @Package: website.lhc.lspace.commo.enums
  * @ClassName: UserEnums
  * @Author: lhc
- * @Description: UserEnum
+ * @Description: 用户角色枚举
  * @Date: 2020/4/2 下午 02:47
  */
 public enum UserEnum {

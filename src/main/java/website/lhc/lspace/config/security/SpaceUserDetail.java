@@ -10,7 +10,7 @@ import java.util.Collection;
  * @Package: website.lhc.lspace.config.security
  * @ClassName: SpaceUserDetail
  * @Author: lhc
- * @Description: TODO
+ * @Description: 自定义用户
  * @Date: 2020/4/5 下午 06:36
  */
 public class SpaceUserDetail implements UserDetails {

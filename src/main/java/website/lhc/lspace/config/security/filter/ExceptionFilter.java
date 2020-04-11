@@ -1,13 +1,12 @@
 package website.lhc.lspace.config.security.filter;
 
 import com.alibaba.fastjson.JSON;
-import io.jsonwebtoken.JwtException;
 import org.springframework.http.MediaType;
 import org.springframework.web.filter.OncePerRequestFilter;
 import website.lhc.lspace.commo.base.Resp;
+import website.lhc.lspace.commo.exception.commo.TokenException;
 
 import javax.servlet.FilterChain;
-import javax.servlet.ServletException;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
@@ -23,17 +22,22 @@ import java.io.IOException;
 public class ExceptionFilter extends OncePerRequestFilter {
 
     @Override
-    protected void doFilterInternal(HttpServletRequest request, HttpServletResponse response, FilterChain filterChain) throws IOException, ServletException {
+    protected void doFilterInternal(HttpServletRequest request, HttpServletResponse response, FilterChain filterChain) {
         String msg = "";
         try {
             filterChain.doFilter(request, response);
         } catch (Exception e) {
-            if (e instanceof JwtException) {
+            e.printStackTrace();
+            if (e instanceof TokenException) {
                 msg = e.getMessage();
             }
             response.setCharacterEncoding("UTF-8");
             response.setContentType(MediaType.APPLICATION_JSON.getType());
-            response.getWriter().write(JSON.toJSONString(Resp.error(msg)));
+            try {
+                response.getWriter().write(JSON.toJSONString(Resp.error(e.getMessage())));
+            } catch (IOException ex) {
+                ex.printStackTrace();
+            }
             return;
         }
     }

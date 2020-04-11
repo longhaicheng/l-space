@@ -13,7 +13,7 @@ import java.util.Set;
  * @Package: website.lhc.lspace.commo.verify
  * @ClassName: ValidatorUtil
  * @Author: lhc
- * @Description: ValidatorUtil
+ * @Description: HibernateValidator  参数校验工具类
  * @Date: 2020/4/1 上午 10:35
  */
 public class ValidatorUtil {

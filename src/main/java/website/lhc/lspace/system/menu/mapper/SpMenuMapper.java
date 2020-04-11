@@ -1,11 +1,14 @@
 package website.lhc.lspace.system.menu.mapper;
 
-import website.lhc.lspace.system.menu.entity.SpMenu;
 import com.baomidou.mybatisplus.core.mapper.BaseMapper;
+import website.lhc.lspace.system.menu.entity.SpMenu;
+
+import java.util.Set;
 
 /**
  * <p>
- * 菜单管理表 Mapper 接口
+ * 菜单管理表
+ Mapper 接口
  * </p>
  *
  * @author 龙海成
@@ -13,4 +16,7 @@ import com.baomidou.mybatisplus.core.mapper.BaseMapper;
  */
 public interface SpMenuMapper extends BaseMapper<SpMenu> {
 
+    Set<String> listPermissionByUserId(Integer userId);
+
+    Set<String> listPermissionByUserAccount(String userAccount);
 }

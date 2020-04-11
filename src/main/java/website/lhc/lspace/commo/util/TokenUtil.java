@@ -3,12 +3,13 @@ package website.lhc.lspace.commo.util;
 import io.jsonwebtoken.Claims;
 import io.jsonwebtoken.Jwts;
 import io.jsonwebtoken.SignatureAlgorithm;
-import org.springframework.security.core.GrantedAuthority;
 import org.springframework.util.AlternativeJdkIdGenerator;
 import org.springframework.util.StringUtils;
 
 import java.io.Serializable;
-import java.util.*;
+import java.util.Date;
+import java.util.HashMap;
+import java.util.Map;
 
 /**
  * @ProjectName: l-space
@@ -46,23 +47,15 @@ public class TokenUtil implements Serializable {
      * 创建token
      *
      * @param userName userName 用户名
-     * @param roleList roleList 角色
      * @return String token
      */
-    public static String generateToken(String userName, Collection<? extends GrantedAuthority> roleList, Date expiration) {
+    public static String generateToken(String userName, Date expiration) {
         Map<String, Object> map = new HashMap<>(2);
         map.put("typ", TYPE);
         map.put("alg", "HS512");
 
-        Map<String, Object> info = new HashMap<>(2);
-        info.put("account", userName);
-        List<String> list = new ArrayList<>(roleList.size());
-        for (GrantedAuthority grantedAuthority : roleList) {
-            list.add(grantedAuthority.getAuthority());
-        }
-        info.put("role", list);
         String s = Jwts.builder()
-                .setClaims(info)
+                .setSubject(userName)
                 .setExpiration(expiration)
                 .setId(new AlternativeJdkIdGenerator().generateId().toString())
                 .setIssuedAt(new Date())
@@ -93,7 +86,9 @@ public class TokenUtil implements Serializable {
      * @return String
      */
     public static String getSubjectFromToken(String token) {
-        return getClaimsFromToken(token).get("account", String.class);
+        Claims claims = getClaimsFromToken(token);
+        System.out.println(claims);
+        return claims.getSubject();
     }
 
     /**
@@ -126,6 +121,4 @@ public class TokenUtil implements Serializable {
         }
         return null;
     }
-
-
 }

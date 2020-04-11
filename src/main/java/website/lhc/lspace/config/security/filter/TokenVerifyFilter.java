@@ -1,15 +1,21 @@
 package website.lhc.lspace.config.security.filter;
 
-import io.jsonwebtoken.Claims;
+import io.jsonwebtoken.ExpiredJwtException;
+import io.jsonwebtoken.JwtException;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
+import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.authority.SimpleGrantedAuthority;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.web.authentication.www.BasicAuthenticationFilter;
+import org.springframework.stereotype.Component;
 import org.springframework.util.StringUtils;
+import website.lhc.lspace.commo.exception.commo.TokenException;
 import website.lhc.lspace.commo.util.TokenUtil;
+import website.lhc.lspace.system.menu.mapper.SpMenuMapper;
 
 import javax.servlet.FilterChain;
 import javax.servlet.ServletException;
@@ -18,19 +24,24 @@ import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Set;
 
 /**
  * @ProjectName: l-space
  * @Package: website.lhc.lspace.config.security
  * @ClassName: SpaceFilter
  * @Author: lhc
- * @Description: token验证过滤器
+ * @Description: token过滤器：检查token是否存在，token校验过程中的异常处理
  * @Date: 2020/4/5 下午 09:07
  */
-
+@Component
 public class TokenVerifyFilter extends BasicAuthenticationFilter {
 
+    @Autowired
+    private SpMenuMapper menuMapper;
+
     private static final Logger log = LoggerFactory.getLogger(TokenVerifyFilter.class);
+
 
     public TokenVerifyFilter(AuthenticationManager authenticationManager) {
         super(authenticationManager);
@@ -43,8 +54,7 @@ public class TokenVerifyFilter extends BasicAuthenticationFilter {
             chain.doFilter(request, response);
             return;
         }
-        String message = "";
-        UsernamePasswordAuthenticationToken token = null;
+        UsernamePasswordAuthenticationToken token;
         token = getAuthentication(authorizationHead);
 
         SecurityContextHolder.getContext().setAuthentication(token);
@@ -55,15 +65,30 @@ public class TokenVerifyFilter extends BasicAuthenticationFilter {
     private UsernamePasswordAuthenticationToken getAuthentication(String requestToken) {
         if (StringUtils.hasLength(requestToken)) {
             String token = requestToken.replace("Bearer ", "");
-            Claims claims = TokenUtil.getClaimsFromToken(token);
-            String account = claims.get("account", String.class);
-            List<String> roleList = claims.get("role", ArrayList.class);
-            List<SimpleGrantedAuthority> lis = new ArrayList<>();
-            for (String s : roleList) {
-                lis.add(new SimpleGrantedAuthority(s));
+
+            String account = null;
+            try {
+                account = TokenUtil.getSubjectFromToken(token);
+            } catch (ExpiredJwtException e) {
+                log.error("ExpiredJwtException:{}", e.getMessage());
+                throw new TokenException("Token过期");
+            } catch (JwtException e) {
+                log.error("JwtException:{}", e.getMessage());
+                throw new TokenException("token错误");
             }
+            if (!StringUtils.hasText(account)) {
+                throw new TokenException("token异常，sub为空");
+            }
+
+            List<GrantedAuthority> authorities = new ArrayList<>();
+            Set<String> permissionSet = menuMapper.listPermissionByUserAccount(account);
+            permissionSet.forEach(item -> {
+                if (StringUtils.hasText(item)) {
+                    authorities.add(new SimpleGrantedAuthority(item));
+                }
+            });
             if (account != null) {
-                return new UsernamePasswordAuthenticationToken(account, null, lis);
+                return new UsernamePasswordAuthenticationToken(account, null, authorities);
             }
         }
         return null;

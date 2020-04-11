@@ -4,19 +4,34 @@
 
     <!-- 通用查询映射结果 -->
     <resultMap id="BaseResultMap" type="website.lhc.lspace.system.menu.entity.SpMenu">
-        <id column="menu_id" property="menuId" />
-        <result column="parent_id" property="parentId" />
-        <result column="menu_name" property="menuName" />
-        <result column="url" property="url" />
-        <result column="perms" property="perms" />
-        <result column="type" property="type" />
-        <result column="icon" property="icon" />
-        <result column="order_num" property="orderNum" />
+        <id column="menu_id" property="menuId"/>
+        <result column="parent_id" property="parentId"/>
+        <result column="menu_name" property="menuName"/>
+        <result column="url" property="url"/>
+        <result column="perms" property="perms"/>
+        <result column="type" property="type"/>
+        <result column="icon" property="icon"/>
+        <result column="order_num" property="orderNum"/>
     </resultMap>
 
     <!-- 通用查询结果列 -->
     <sql id="Base_Column_List">
         menu_id, parent_id, menu_name, url, perms, type, icon, order_num
     </sql>
+
+    <select id="listPermissionByUserId" parameterType="java.lang.Integer" resultType="java.lang.String">
+        SELECT perms
+        FROM sp_menu m
+                 LEFT JOIN sp_role_menu rm ON m.menu_id = rm.menu_id
+                 LEFT JOIN sp_user_role u ON rm.role_id = u.role_id AND u.user_id = #{userId}
+    </select>
+
+    <select id="listPermissionByUserAccount" parameterType="java.lang.String" resultType="java.lang.String">
+        SELECT perms
+        FROM sp_menu m
+                 LEFT JOIN sp_role_menu rm ON m.menu_id = rm.menu_id
+                 LEFT JOIN sp_user_role u ON rm.role_id = u.role_id
+                 LEFT JOIN sp_user us ON us.user_account = #{userAccount}
+    </select>
 
 </mapper>

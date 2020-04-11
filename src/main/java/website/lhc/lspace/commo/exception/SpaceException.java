@@ -5,7 +5,7 @@ package website.lhc.lspace.commo.exception;
  * @Package: website.lhc.space.commo.exception
  * @ClassName: SpaceException
  * @Author: lhc
- * @Description: SpaceException
+ * @Description: 项目总异常，不可直接抛出
  * @Date: 2020/3/24 上午 12:10
  */
 public abstract class SpaceException extends RuntimeException {
