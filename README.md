@@ -1,11 +1,9 @@
 # l-space
 
 ### 概述
-一个网站的后台与前台，功能简单
-
-### 提交日志
-#### 202004070040
-1. 将原计划的Shiro框架改为Spring Security并整合JSON Web Token，实现无状态的认证
+基于SpringSecurity使用token完成接口请求
+## 使用
+1. Spring Security整合JSON Web Token，实现无状态的认证
 2. 可以校验JWT的[网站](https://jwt.io/)，用来测试还挺不错的！
 3. 完成登录接口：通过账号和密码登录，返回token
 * 接口说明：
@@ -20,12 +18,12 @@
     ```
     * 返回示例：
     ```json
-    {
-        "code": 200,
-        "expiration": 1586403579315,
-        "message": "success",
-        "token": "eyJhbGciOiJIUzUxMiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJsLXNwYWNlIiwicm9sZSI6WyJST0xFX2NvbW1vbiIsIlJPTEVfYWRtaW4iXSwiZXhwIjoxNTg2NDAzNTc5LCJpYXQiOjE1ODY0MDAwMTQsImFjY291bnQiOiIxMjM0NSIsImp0aSI6ImQ3ZTg4YjEzLTkyOTAtYzg4OC03MmQ1LWQyZmQ3ZTUwNGI5MiJ9.8hrxfKpEvZWShOkDLIXQIDAa1rH1YuV3Lhn-jtRoDZxI_S0lTE2SWouc2xNMP4wcKopg5n3E_-cnyxeCJM2xIA"
-    }
+  {
+      "code": 200,
+      "expiration": 1586596704891,
+      "message": "success",
+      "token": "eyJhbGciOiJIUzUxMiIsInR5cCI6IkpXVCJ9.eyJzdWIiOiIxMjM0NSIsImV4cCI6MTU4NjU5NjcwNCwianRpIjoiNGU5YTYwMDgtNmIzNy1lZTE1LTEzOTctZjBlZjk0ZmFmNjNjIiwiaWF0IjoxNTg2NTkzMTk2LCJpc3MiOiJsLXNwYWNlIn0.kL3lQsPcdojN7ttfXxhAVDCZs4_OOmIAbl6SE00q4a5nwvz7nsedPEkyV5Is2lj1GoW5RbIfq1gThckWrNVvog"
+  }
     ```
 * 获取token之后，将token存放在header中请求受保护的接口
     * 请求方式：POST
@@ -56,6 +54,5 @@
           "message": "success"
       }
     ```
-* token信息![token info](http://image.haicheng.website/20200407005413.bmp)
 
 *开发进度比较慢*
