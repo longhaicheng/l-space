@@ -68,12 +68,17 @@ public class MenuServiceImpl extends ServiceImpl<MenuMapper, Menu> implements IM
         return Resp.ok(menuList);
     }
 
+    /**
+     * 递归获取子菜单
+     *
+     * @param parentMenus parentMenus
+     * @return List<Menu>
+     */
     private List<Menu> listChildMenu(List<Menu> parentMenus) {
         if (CollectionUtils.isEmpty(parentMenus)) {
             return Collections.emptyList();
         }
         for (Menu parentMenu : parentMenus) {
-            System.out.println(parentMenu.toString());
             QueryWrapper<Menu> menuQueryWrapper = new QueryWrapper<>();
             menuQueryWrapper.select("menu_id", "parent_id", "menu_name", "url");
             menuQueryWrapper.eq("display", MenuEnums.ACTIVE.getStatus());

@@ -87,7 +87,6 @@ public class TokenUtil implements Serializable {
      */
     public static String getSubjectFromToken(String token) {
         Claims claims = getClaimsFromToken(token);
-        System.out.println(claims);
         return claims.getSubject();
     }
 
