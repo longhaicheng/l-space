@@ -54,5 +54,8 @@
           "message": "success"
       }
     ```
+## 七牛云OSS交互流程
+![七牛云OSS交互流程](http://image.haicheng.website/20200412200512.bmp)
+
 
 *开发进度比较慢*
